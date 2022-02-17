@@ -10,7 +10,12 @@ const port = process.env.PORT || 4000;
 const connection_url = "mongodb+srv://tinderadmin:tinderpassword@cluster0.g0dgp.mongodb.net/tinderdb?retryWrites=true&w=majority"
 
 //DB Config
-mongoose.connect(connection_url);
+async function connectionFunction () {
+    await mongoose.connect(connection_url);
+    console.log("We are connected to DB")
+    
+}
+connectionFunction();
 //for version 6 of mongoose, we don't need 
 //userParser etc, it's by default set.
 
@@ -46,5 +51,18 @@ app.get("/tinder/cards", (req, res) => {
         }
     });
 });
+app.delete("/tinder/cards/:id", (req, res) => {
+    const  temp = req.params.id;
+    // console.log(temp);
+    // res.status(200).send("Done");
+    Cards.findOneAndDelete({_id: temp }, function (err, docs) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            console.log("Deleted Image : ", docs);
+        }
+    });
+})
 //Listner
 app.listen(port, () => console.log(`Listning on port ${port}`));
