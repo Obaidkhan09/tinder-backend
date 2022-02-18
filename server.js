@@ -57,10 +57,12 @@ app.delete("/tinder/cards/:id", (req, res) => {
     // res.status(200).send("Done");
     Cards.findOneAndDelete({_id: temp }, function (err, docs) {
         if (err){
-            console.log(err)
+            console.log(err);
+            res.status(500).send("Error occured");
         }
         else{
             console.log("Deleted Image : ", docs);
+            res.status(200).send("Item deleted.!");
         }
     });
 })
