@@ -1,18 +1,20 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Cors from "cors";
+import 'dotenv/config';
 
 import Cards from "./cardScema.js"
 
 //App Config
 const app = express();
 const port = process.env.PORT || 4000;
-const connection_url = "mongodb+srv://tinderadmin:tinderpassword@cluster0.g0dgp.mongodb.net/tinderdb?retryWrites=true&w=majority"
+const connection_url = `mongodb+srv://tinderadmin:${process.env.REACT_APP_PASSWORD}@cluster0.g0dgp.mongodb.net/tinderdb?retryWrites=true&w=majority`
 
 //DB Config
 async function connectionFunction () {
-    await mongoose.connect(connection_url);
-    console.log("We are connected to DB")
+    await mongoose.connect(connection_url)
+    .then(()=>console.log("Connected to DB"))
+    .catch((err)=>console.log(err));
     
 }
 connectionFunction();
